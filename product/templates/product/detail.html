@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+    <div class="grid grid-cols-5 gap-6 mb-3">
+        <div class="col-span-3">
+            <img src="{{ product.image.url }}" class="rounded-xl">
+        </div>
+    
+
+    <div class="col-span-2 p-6 bg-gray-100 rounded-xl">
+        <h1 class="mb-6 text-3xl">{{ product.name }}</h1>
+        <p class="text-gray-500"><strong>Price: {{ product.price }}</strong></p>
+        <p class="text-gray-500"><strong>Seller: {{ product.created_by.username }}</strong></p>
+        {% if product.description %}
+        <p class="text-gray-700">
+            <strong class="text-gray-500">Description:</strong><br> {{ product.description }}</p>
+        {% endif %}
+        {% if request.user == product.created_by %}
+        <div class="mt-6 p-6 bg-white rounded-xl">
+            <p>This is your product!</p>
+            <a href="{% url 'product:edit' product.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl">Edit</a>
+
+            <a href="{% url 'product:delete' product.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-red-500 text-white rounded-xl">Delete</a>
+
+        </div>
+        {% else %}
+        <a 
+        href="#" 
+        class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white hover:bg-teal-700 rounded-xl"
+        hx-get="{% url 'cart:add_to_cart' product.id %}"
+        hx-target="#menu-cart-button"
+        hx-swap="outerHTML"
+        >Add to Cart</a>
+        <a href="{% url 'conversation:new' product.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-orange-500 text-white hover:bg-orange-700 rounded-xl">Contact Seller</a>
+        {% endif %}
+    </div>
+    </div>
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-2xl text-center">Related products</h2>
+
+        <div class="grid grid-cols-3 gap-3">
+            {% for product in related_products %}
+                <div>
+                    <a href="{% url 'product:detail' product.id %}">
+                        <div>
+                            <img src="{{ product.image.url }}" class="rounded-t-xl">
+                        </div>
+
+                        <div class="p-6 bg-white rounded-b-xl">
+                            <h2 class="text-2xl">{{ product.name }}</h2>
+                            <p class="text-gray-500">Price: {{ product.price }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
