@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Session settings
 SESSION_COOKIE_AGE = 86400 # 1 day

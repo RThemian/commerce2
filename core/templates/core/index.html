@@ -19,6 +19,19 @@
                             <p class="text-gray-500">Price: {{ product.price }}</p>
                         </div>
                     </a>
+            {% if request.user.is_authenticated and request.user != product.created_by %}
+            <a 
+            href="#" 
+            class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white hover:bg-teal-700 rounded-xl"
+            hx-get="{% url 'cart:add_to_cart' product.id %}"
+            hx-target="#menu-cart-button"
+            hx-swap="outerHTML"
+            >Add to Cart</a>
+        {% elif not request.user.is_authenticated %}
+            
+        {% else %}
+            
+        {% endif %}
                 </div>
             {% endfor %}
         </div>
