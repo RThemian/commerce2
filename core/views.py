@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 # import models from product app, not from core app
 from product.models import Product, Category
 from .forms import SignupForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -14,6 +15,16 @@ def index(request):
 
 def contact(request):
     return render(request, 'core/contact.html')
+
+
+@login_required
+def myaccount(request):
+    return render(request, 'core/myaccount.html')
+
+@login_required
+def edit_myaccount(request):
+    return render(request, 'core/edit_myaccount.html')
+
 
 def signup(request):
     if request.method == "POST":

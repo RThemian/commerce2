@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Edit My Account{% endblock %}
+
+{% block content %}
+<div class="w-1/2 my-6 bg-gray-100 rounded-xl">
+    <h1 class ="mb-5 text-3xl">Edit Account</h1>
+
+    <form action="POST" class="space-y-3">
+        <div>
+            <label>First name</label>
+            <input name="first_name" value="{{ request.user.first_name }}" type="'text" class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl">
+        </div>
+        <div>
+            <label>Last name</label>
+            <input name="last_name" value="{{ request.user.first_name }}" type="'text" class="w-full mt-2 py-4 px-6 bg-gray-100 rounded-xl">
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}
