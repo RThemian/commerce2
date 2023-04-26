@@ -115,7 +115,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'RThemian/commerce',
-        'USER': os.environ['USER'],
+        'USER': os.environ.get('USER', 'default_value'),
         'PASSWORD': os.environ['PASSWORD'],
         'HOST': 'db.bit.io',
         'PORT': '5432',
