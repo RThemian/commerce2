@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://commerce-nov8.herokuapp.com/']
 
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
