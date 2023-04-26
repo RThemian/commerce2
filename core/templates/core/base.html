@@ -25,7 +25,16 @@
 
                     <a href="{% url 'dashboard:index' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Dashboard</a>
                     <!-- cart link -->
-                    {% include 'cart/menu_item.html' %}
+                    <span
+                        hx-get="{% url 'cart:hx_menu_item' %}"
+                        hx-trigger="update-menu-item from:body"
+                        hx-swap="innerHTML"
+
+
+                    >
+                        {% include 'cart/menu_item.html' %}
+                        
+            </span>
 
                     <a href="{% url 'core:logout' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Log out</a>
                     

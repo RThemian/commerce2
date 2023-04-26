@@ -10,8 +10,10 @@
         <!-- list name, username, and email from request.user -->
         <strong>Name: </strong><p class="text-xl">{{ request.user.first_name }} {{ request.user.last_name }}</p>
         <strong>Username: </strong><p class="text-xl">{{ request.user.username }}</p>
-        <strong>Email: </strong><p class="text-xl">{{ request.user.email }}</p>
-        <a href="{% url 'edit_myaccount' %}">Edit</a>
+        <strong>Email: </strong><p class="text-xl mb-6">{{ request.user.email }}</p>
+        <a href="{% url 'core:edit_myaccount' %}" class="mt-4 py-4 px-6 rounded-xl text-white bg-purple-500">Edit</a>
+        <!-- url path to edit_myaccount -->
+
     </div>
     <hr>
     <h2 class="my-6 text-xl">My orders</h2>
