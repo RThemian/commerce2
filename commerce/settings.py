@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'core', # new
     'dashboard',
     'product', # new
+    'order', # new
     
 ]
 
