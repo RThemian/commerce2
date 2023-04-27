@@ -10,20 +10,34 @@ def add_to_cart(request, product_id):
     return render(request, 'cart/menu_item.html') # redirect the user to the cart details page
 
 def cart(request):
-   
     # cart = Cart(request)
     # cart_items = cart.get_cart_items()
     return render(request, 'cart/index.html')
 
+
+
+
 def update_cart(request, product_id, action):
     cart = Cart(request)
-    if action == 'increment':
-        cart.add(product_id, 1, True) # add one to the quantity
-    else:
-        cart.add(product_id, -1, True) # remove one from the quantity
 
+
+
+    if action == 'increment':
+        print('action', action)
+        cart.add(product_id, 1, True) # add one to the quantity
+        cart.save()
+        print('cart', cart.cart)
+    else:
+        print('action', action)
+        print('cart_before', cart.cart)
+        cart.add(product_id, -1, True) # remove one from the quantity
+        cart.save()
+        print('cart_after', cart.cart)
+        # render(request, 'cart/partials/cart_total.html')
+        
     product = Product.objects.get(pk=product_id)
-    quantity = cart.get_item(product_id)
+    quantity = cart.get_item(product_id)['quantity'] # get the quantity of the updated product
+
 
     item = {
         'product': {
@@ -32,7 +46,7 @@ def update_cart(request, product_id, action):
         'image': product.image,
         'price': product.price,
         },
-        'total_price': (product.price * quantity) / 100,
+        'total_price': (product.price * quantity),
         'quantity': quantity,
     }
     response = render(request, 'cart/partials/cart_item.html', {'item': item})
@@ -49,10 +63,8 @@ def checkout(request):
 def hx_menu_item(request):
     return render(request, 'cart/menu_item.html')
 
-def get_item(self, product_id):
-    return self.cart[str(product_id)]
+
 
 def hx_cart_total(request):
   
     return render(request, 'cart/partials/cart_total.html')
-
