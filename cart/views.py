@@ -31,9 +31,11 @@ def update_cart(request, product_id, action):
         print('action', action)
         print('cart_before', cart.cart)
         cart.add(product_id, -1, True) # remove one from the quantity
-        cart.save()
-        print('cart_after', cart.cart)
-        # render(request, 'cart/partials/cart_total.html')
+        # check if the quantity is 0, if so, remove the item from the cart
+          # if the quantity is now 0, remove the item from the cart
+        if cart.get_item(product_id) is None or cart.get_item(product_id)['quantity'] == 0:
+            cart.remove(product_id)
+       
         
     product = Product.objects.get(pk=product_id)
     quantity = cart.get_item(product_id)['quantity'] # get the quantity of the updated product

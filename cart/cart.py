@@ -39,18 +39,16 @@ class Cart(object):
             self.cart[product_id] = {'quantity': 1, 'id': product_id}
         
         if self.cart[product_id]['quantity'] < 0: 
-            self.cart[product_id]['quantity'] = 0
-        
+            self.cart[product_id]['quantity'] = 0   
 
         if update_quantity:
                 self.cart[product_id]['quantity'] += int(quantity)
                 
-
         if self.cart[product_id]['quantity'] == 0:
-                self.remove(product_id)
-                
-            
+                self.remove(product_id)      
         self.save() # save the cart in the session
+    
+   
     
     def remove(self, product_id):
         if product_id in self.cart:
@@ -62,3 +60,10 @@ class Cart(object):
             self.cart[str(p)]['product'] = Product.objects.get(pk=p)
 
         return int(sum(item['product'].price * item['quantity'] for item in self.cart.values())) 
+    
+    def get_item(self, product_id):
+        if str(product_id) in self.cart:
+            return self.cart[str(product_id)]
+        else:
+            # can't cause an error here, because it's used in the cart template
+            return {'quantity': 0, 'id': product_id}

@@ -1,3 +1,4 @@
+{% if item.quantity > 0 %}
 <div class="product mb-6 flex pr-6" id="cart-item-{{ item.product.id }}">
     <img class="hover:shadow-lg rounded-xl h-48 w-48 object-cover flex-shrink-0" src="{{ item.product.image.url }}" alt="{{ product.name }}">
 
@@ -38,3 +39,4 @@
 
     </div>
 </div>
+{% endif %}
