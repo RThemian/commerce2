@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .cart import Cart
 from django.contrib.auth.decorators import login_required
 from product.models import Product
+from django.conf import settings
 # Create your views here.
 def add_to_cart(request, product_id):
     cart = Cart(request) # create a new cart object passing it the request object
@@ -60,6 +61,7 @@ def update_cart(request, product_id, action):
 
 @login_required
 def checkout(request):
+    pub_key = settings.STRIPE_PUBLIC_KEY
     return render(request, 'cart/checkout.html')
 
 def hx_menu_item(request):
