@@ -1,3 +1,6 @@
+import stripe
+import json
+from django.conf import settings
 from django.shortcuts import render, redirect
 
 from .models import OrderItem, Order
@@ -7,6 +10,38 @@ from cart.cart import Cart
 # Create your views here.
 def start_order(request):
     cart = Cart(request)
+    data = json.loads(request.body) # get the data sent from the client
+    total_price = 0 # get the total price of the cart
+
+    items = []
+
+    for item in cart:
+        product = item['product']
+        total_price += product.price * int(item['quantity'])
+
+        # make a dictionary for each item
+        obj = {
+            'price_data': {
+            'currency': 'usd',
+            'product_data': {
+                'name': product.name,
+            },
+            'unit_amount': int(product.price * 100),
+            },
+            'quantity': int(item['quantity']),
+            }
+        items.append(obj)
+        
+
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=items,
+            mode='payment',
+            success_url='http://localhost:8000/cart/success/',
+            cancel_url='http://localhost:8000/cart',
+        )
+        payment_intent = session.payment_intent
 
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
