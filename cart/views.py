@@ -62,7 +62,8 @@ def update_cart(request, product_id, action):
 @login_required
 def checkout(request):
     pub_key = settings.STRIPE_PUBLIC_KEY
-    return render(request, 'cart/checkout.html')
+    # where is this used
+    return render(request, 'cart/checkout.html', {'pub_key': pub_key})
 
 def hx_menu_item(request):
     return render(request, 'cart/menu_item.html')
