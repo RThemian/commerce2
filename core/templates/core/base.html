@@ -27,7 +27,7 @@
                     <!-- cart link -->
                     <span
                         hx-get="{% url 'cart:hx_menu_item' %}"
-                        hx-trigger="update-menu-item from:body"
+                        hx-trigger="update-menu-item from:body" 
                         hx-swap="innerHTML"
 
 
@@ -72,5 +72,8 @@
         </footer>
         <!-- htmx -->
         <script src="https://unpkg.com/htmx.org@1.7.0"></script>
+        {% block scripts %}
+        {% endblock %}
+        
     </body>
 </html>

@@ -16,10 +16,11 @@ def index(request):
 def contact(request):
     return render(request, 'core/contact.html')
 
-
+# here's the view for the myaccount page, how can I call it in another app? explain: 
 @login_required
 def myaccount(request):
     return render(request, 'core/myaccount.html')
+
 
 @login_required
 def edit_myaccount(request):

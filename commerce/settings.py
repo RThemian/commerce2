@@ -42,7 +42,9 @@ LOGOUT_REDIRECT_URL = '/'
 SESSION_COOKIE_AGE = 86400 # 1 day
 CART_SESSION_ID = 'cart' # session key for cart items
 # explain session key: https://docs.djangoproject.com/en/4.1/topics/http/sessions/#session-key
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY') # public key for stripe
 
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 
 # Application definition
 
@@ -58,6 +60,7 @@ INSTALLED_APPS = [
     'core', # new
     'dashboard',
     'product', # new
+    'order', # new
     
 ]
 
