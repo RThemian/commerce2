@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %}
 
+{% block title %}Checkout{% endblock %}
+
 {% block content %}
 <div class="max-w-6xl mx-auto flex flex-wrap items-start py-6 px-6 xl:px-0">
    
@@ -44,6 +46,9 @@
                             <input name="phone" type="phone" class="w-full p-5 rounded-xl">
                         </div>
                     </div> 
+                    <div class="mb-6 p-6 bg-gray-100 rounded-xl text-red-300" id = 'errors'>
+                        
+                    </div>
                     <div class="mb-6 p-6 bg-gray-100 rounded-xl">
                         <h2 class="mb-5 uppercase text-lg">Payment Information</h2>
                     </div> 
@@ -82,6 +87,7 @@
     //     return true
    
     // }
+    let elementErrors = document.getElementById('errors');
     
     function validateForm(data) {
     let errors = []
@@ -93,6 +99,17 @@
     }
     if (errors.length > 0) {
         alert(`Please fill in the following fields: ${errors.join(', ')}`)
+        // put the errors in the html at the bottom
+        // let errorHTML = '<ul>'
+        // add "Errors" to the start of the list
+        let errorHTML = '<ul><li>Errors: Please fill in the following fields</li>'
+        for (let i = 0; i < errors.length; i++) {
+            errorHTML += `<li>${errors[i]}</li>`
+        }
+        elementErrors.innerHTML = errorHTML + '</ul>'
+    } else {
+        elementErrors.innerHTML = ''
+
     }
     return errors
 }

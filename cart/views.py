@@ -15,7 +15,8 @@ def cart(request):
     # cart_items = cart.get_cart_items()
     return render(request, 'cart/index.html')
 
-
+def success(request):
+    return render(request, 'cart/success.html')
 
 
 def update_cart(request, product_id, action):

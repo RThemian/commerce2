@@ -28,11 +28,17 @@ class Order(models.Model):
 #Decimal field is a field that stores decimal numbers. It takes two required arguments: max_digits and decimal_places.
     status = models.CharField(max_length=20, default='ORDERED', choices=STATUS_CHOICES)
 
+    class Meta:
+        ordering = ('-created_at',)
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
+
+    def get_total_price(self):
+        return (self.price * self.quantity)/100
 
 
    

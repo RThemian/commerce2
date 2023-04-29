@@ -39,7 +39,7 @@
             <div class="w-3/4 pl-6">
                 <div class="flex justify-between">
                     <a href="#" class="text-lg">Product Name: {{item.product.name}}</a>
-                    <p class="mb-6 pt-1 text-gray-400">Price: 9.99</p>
+                    <p class="mb-6 pt-1 text-gray-400">Price: {{ item.get_total_price }}</p>
                 </div>
 
                 <hr>
