@@ -3,7 +3,19 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Category(models.Model):
+    WATCHES = 'Watches'
+    NATURE_PHOTOGRAPHY = 'Nature Photography'
+    CLOTHES = 'Clothes'
+    
+    DEFAULT_CATEGORIES = [
+        (WATCHES, 'Watches'),
+        (NATURE_PHOTOGRAPHY, 'Nature Photography'),
+        (CLOTHES, 'Clothes'),
+    ]
     name = models.CharField(max_length=255)
+    # give default category: watches, nature_photos, clothes 
+    
+
     # give categories: watches, phones, laptops, shoes, clothes, etc.
 
     class Meta:
