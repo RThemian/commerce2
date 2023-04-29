@@ -12,7 +12,7 @@ class Category(models.Model):
         (NATURE_PHOTOGRAPHY, 'Nature Photography'),
         (CLOTHES, 'Clothes'),
     ]
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, choices=DEFAULT_CATEGORIES, default=NATURE_PHOTOGRAPHY)
     # give default category: watches, nature_photos, clothes 
     
 
