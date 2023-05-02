@@ -30,6 +30,11 @@ class Order(models.Model):
 
     class Meta:
         ordering = ('-created_at',)
+    
+    def get_total_price(self):
+        if self.paid_amount:
+            return self.paid_amount
+        return 0
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
@@ -38,7 +43,7 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def get_total_price(self):
-        return (self.price * self.quantity)/100
+        return self.price 
 
 
    
