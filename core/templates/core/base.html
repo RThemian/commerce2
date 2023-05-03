@@ -19,7 +19,7 @@
             <div id="menu-items" class="hidden md:flex space-x-6">
                 <!-- Rest of the code -->
                 <a href="{% url 'product:products' %}" class="text-lg font-semibold hover:text-gray-500">Browse</a>
-                <a href="{% url 'product:new' %}" class="text-lg font-semibold hover:text-gray-500">New product DESK</a>
+                <a href="{% url 'product:new' %}" class="text-lg font-semibold hover:text-gray-500">New product</a>
 
                     {% if request.user.is_authenticated %}
                         
@@ -32,12 +32,10 @@
                         hx-get="{% url 'cart:hx_menu_item' %}"
                         hx-trigger="update-menu-item from:body" 
                         hx-swap="innerHTML"
-
-
                     >
                         {% include 'cart/menu_item.html' %}
                         
-            </span>
+                    </span>
 
                     <a href="{% url 'core:logout' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Log out</a>
                     
