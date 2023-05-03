@@ -2,7 +2,6 @@ import stripe
 import json
 from django.http import JsonResponse
 from django.conf import settings
-from django.shortcuts import render, redirect
 # import pub_key from settings.py
 
 from .models import OrderItem, Order
@@ -54,7 +53,16 @@ def start_order(request):
         place = data['place']
         phone = data['phone']
 
-        order = Order.objects.create(user=request.user, first_name=first_name, last_name=last_name, email=email, address=address, zipcode=zipcode, place=place, phone=phone)
+        order = Order.objects.create(
+            user=request.user,
+            first_name=first_name, 
+            last_name=last_name, 
+            email=email, 
+            address=address, 
+            zipcode=zipcode, 
+            place=place, 
+            phone=phone
+          )
 
         order.payment_intent = payment_intent
         order.paid_amount = total_price

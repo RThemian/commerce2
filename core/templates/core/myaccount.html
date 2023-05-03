@@ -53,7 +53,7 @@
         {% endfor %}
         </div>
         <p class="text-lg">Date: {{ order.created_at }}</p>
-        <p class="text-lg">Total: $199 </p>
+        <p class="text-lg">Total: ${{ order.get_total_price }} </p>
         </div>
 {% endfor %}
 </div>
