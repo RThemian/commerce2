@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import NewProductForm, EditProductForm
 import uuid
 import boto3
+from django.shortcuts import get_object_or_404
 
 S3_BASE_URL = "https://s3.us-east-2.amazonaws.com/"
 BUCKET = "commerce-nov8"
@@ -99,6 +100,9 @@ def delete(request, pk):
 
 @login_required
 def add_photo(request, pk):
+    product = Product.objects.get(pk=pk)
+    
+
     # collect photo submitted by the user
     photo_file= request.FILES.get('photo-file', None)
     # if photo file present
@@ -106,6 +110,7 @@ def add_photo(request, pk):
        
      # set up a s3 client object - obj w/methods for working with s3
         s3 = boto3.client('s3')
+        
     # create a unique name for the file
         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
         # upload the file to AWS S3
@@ -115,7 +120,7 @@ def add_photo(request, pk):
               # * make sure to associate the cat with the photo model instance
               s3.upload_fileobj(photo_file, BUCKET, key)
               url = f"{S3_BASE_URL}{BUCKET}/{key}"
-              Photo.objects.create(url=url, pk=pk)
+              Photo.objects.create(url=url, product=product, pk=pk)
         except Exception as error:
             print('An error occurred uploading file to S3: ', error)
          

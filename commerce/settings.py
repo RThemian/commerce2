@@ -11,8 +11,16 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import os # os module is used to access environment variables
 
+import os # os module is used to access environment variables
+from dotenv import load_dotenv
+
+
+# Specify the path to the .env file
+env_path = os.path.join(os.path.dirname(__file__), '.env')
+
+# Load the environment variables from the .env file
+load_dotenv(dotenv_path=env_path)
 import environ
 
 environ.Env()
@@ -125,7 +133,7 @@ DATABASES = {
     }
 }
 
-
+# US East (Ohio) us-east-2 AWS Region
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
