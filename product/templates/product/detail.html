@@ -6,8 +6,22 @@
     <div class="grid grid-cols-5 gap-6 mb-3">
         <div class="col-span-3">
             <img src="{{ product.image.url }}" class="rounded-xl">
+        {% for photo in product.photo_set.all %}
+        
+            <img src="{{ photo.url }}" class="rounded-xl" alt="{{product.name}}">
+        {% empty %} 
+        
+            <h2>No Photos Uploaded Yet</h2>
+        {% endfor %}
+        <form action="{% url 'product:add_photo' product.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="photo-file">
+            <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                Upload Photo
+              </button>
+        </form>
+
         </div>
-    
 
     <div class="col-span-2 p-6 bg-gray-100 rounded-xl">
         <h1 class="mb-6 text-3xl">{{ product.name }}</h1>

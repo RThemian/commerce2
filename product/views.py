@@ -1,8 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q # Q is a shortcut for OR queries
-from .models import Product, Category
+from .models import Product, Category, Photo
 from django.contrib.auth.decorators import login_required
 from .forms import NewProductForm, EditProductForm
+import uuid
+import boto3
+
+S3_BASE_URL = "https://s3.us-east-2.amazonaws.com/"
+BUCKET = "commerce-nov8"
+
 # Create your views here.
 
 def products(request):
@@ -90,3 +96,34 @@ def delete(request, pk):
     product = get_object_or_404(Product, pk=pk, created_by=request.user)
     product.delete()
     return redirect('dashboard:index')
+
+@login_required
+def add_photo(request, pk):
+    # collect photo submitted by the user
+    photo_file= request.FILES.get('photo-file', None)
+    # if photo file present
+    if photo_file:
+       
+     # set up a s3 client object - obj w/methods for working with s3
+        s3 = boto3.client('s3')
+    # create a unique name for the file
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        # upload the file to AWS S3
+        try:
+              # generate a unique url for the image
+              # save the url as a new instance of the Photo model
+              # * make sure to associate the cat with the photo model instance
+              s3.upload_fileobj(photo_file, BUCKET, key)
+              url = f"{S3_BASE_URL}{BUCKET}/{key}"
+              Photo.objects.create(url=url, pk=pk)
+        except Exception as error:
+            print('An error occurred uploading file to S3: ', error)
+         
+        # if there's an error, print it out
+
+    # redirect to the product detail page
+
+    return redirect('product:detail', pk=pk)
+
+# add a mixin to check if the user is logged in, protect the class-based views
+
