@@ -10,10 +10,11 @@
             {% for product in products %}
                 <div>
                     <a href="{% url 'product:detail' product.id %}">
+                        {% for photo in product.photo_set.all %}
                         <div>
-                            <img src="{{ product.image.url }}" class="rounded-t-xl">
+                            <img src="{{ photo.url }}" class="rounded-t-xl">
                         </div>
-
+                        {% endfor %} 
                         <div class="p-6 bg-white rounded-b-xl">
                             <h2 class="text-2xl">{{ product.name }}</h2>
                             <p class="text-gray-500">Price: {{ product.price }}</p>
