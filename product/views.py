@@ -104,7 +104,7 @@ def delete_photo(request, pk):
 
     # delete the photo from S3 and remove the image property from the product
     s3 = boto3.client('s3')
-    s3.delete_object(Bucket=BUCKET, Key=photo.url[photo.url.rfind('/')+1:])
+    s3.delete_object(Bucket=BUCKET, Key=photo.url[photo.url.rfind('/')+1:]) # delete the object from S3 using the url property of the photo object
     photo.delete()
     
 
