@@ -6,14 +6,15 @@
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
         <h2 class="mb-12 text-2xl text-center">Newest products</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
             {% for product in products %}
                 <div>
                     <a href="{% url 'product:detail' product.id %}">
+                        {% for photo in product.photo_set.all %}
                         <div>
-                            <img src="{{ product.image.url }}" class="rounded-t-xl">
+                            <img src="{{ photo.url }}" class="rounded-t-xl">
                         </div>
-
+                        {% endfor %} 
                         <div class="p-6 bg-white rounded-b-xl">
                             <h2 class="text-2xl">{{ product.name }}</h2>
                             <p class="text-gray-500">Price: {{ product.price }}</p>
@@ -42,7 +43,7 @@
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
         <h2 class="mb-12 text-2xl text-center">Categories</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
             {% for category in categories %}
                 <div>
                     <a href="#">

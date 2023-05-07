@@ -1,8 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q # Q is a shortcut for OR queries
-from .models import Product, Category
+from .models import Product, Category, Photo
 from django.contrib.auth.decorators import login_required
 from .forms import NewProductForm, EditProductForm
+import uuid
+import boto3
+from django.shortcuts import get_object_or_404
+
+S3_BASE_URL = "https://s3.us-east-2.amazonaws.com/"
+BUCKET = "commerce-nov8"
+
 # Create your views here.
 
 def products(request):
@@ -90,3 +97,59 @@ def delete(request, pk):
     product = get_object_or_404(Product, pk=pk, created_by=request.user)
     product.delete()
     return redirect('dashboard:index')
+
+@login_required
+def delete_photo(request, pk):
+    photo = get_object_or_404(Photo, pk=pk)
+
+    # delete the photo from S3 and remove the image property from the product
+    s3 = boto3.client('s3')
+    s3.delete_object(Bucket=BUCKET, Key=photo.url[photo.url.rfind('/')+1:]) # delete the object from S3 using the url property of the photo object
+    photo.delete()
+    
+
+    return redirect('product:detail', pk=pk)
+
+
+
+@login_required
+def add_photo(request, pk):
+    product = Product.objects.get(pk=pk)
+    
+
+    # collect photo submitted by the user
+    photo_file= request.FILES.get('photo-file', None)
+    # if photo file present
+    if photo_file:
+       
+     # set up a s3 client object - obj w/methods for working with s3
+        s3 = boto3.client('s3')
+        
+    # create a unique name for the file
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        # upload the file to AWS S3
+        try:
+              # generate a unique url for the image
+              # save the url as a new instance of the Photo model
+             
+              s3.upload_fileobj(photo_file, BUCKET, key)
+              url = f"{S3_BASE_URL}{BUCKET}/{key}"
+              Photo.objects.create(url=url, product=product, pk=pk)
+              print(product)
+            # add an image property to the product
+              product.image = url
+            #   update the product in the database
+              product.save()
+              print(product, product.image)
+
+        except Exception as error:
+            print('An error occurred uploading file to S3: ', error)
+         
+        # if there's an error, print it out
+
+    # redirect to the product detail page
+
+    return redirect('product:detail', pk=pk)
+
+# add a mixin to check if the user is logged in, protect the class-based views
+
