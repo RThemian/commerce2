@@ -22,11 +22,13 @@ class Cart:
             self.cart[p]['image_url'] = image_url
 
         for item in self.cart.values():
-            item['total_price'] = int(item['product'].price * item['quantity']) 
+            item['total_price'] = int(item['product'].price * item['quantity'])
             yield item
 
+
     def __len__(self):
-        return sum(item['quantity'] for item in self.cart.values())
+        return max(0, sum(item['quantity'] for item in self.cart.values()))
+
 
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart
@@ -34,12 +36,15 @@ class Cart:
 
     def add(self, product_id, quantity=1, update_quantity=False):
         product_id = str(product_id)
-
+        print('self.cart', self.cart)
         if product_id not in self.cart:
+            print('product id not in cart')
             self.cart[product_id] = {'quantity': 1, 'id': product_id}
-
+    # check on convergent id for item and product
         if update_quantity:
-            self.cart[product_id]['quantity'] = int(quantity)
+            print('update quantity!!!')
+            self.cart[product_id]['quantity'] += int(quantity)
+            print(self.cart[product_id]['quantity'])
         else:
             self.cart[product_id]['quantity'] += int(quantity)
 
@@ -58,6 +63,7 @@ class Cart:
         self.session.modified = True
 
     def get_total_cost(self):
+        print('cart', self.cart)
         return int(sum(item['product'].price * item['quantity'] for item in self.cart.values()))
 
     def get_item(self, product_id):
