@@ -1,0 +1,8 @@
+
+Todo:
+1. Fix that initial "Add to Cart" only adds one item at a time -- DONE ("i didn't change anything")
+2. Fix in cart/index.html that increment and decrement don't work
+    2.a decrement -- yeets the cart object even though it has more than 1 quantity
+    2.b increment -- yeets the img, then it resets the quantity to 1, the total is NOT affected but should between DONE
+    2.c when refreshed KeyError at /cart/ cart.get_total_cost DONE
+3. Fix cart/checkout 
