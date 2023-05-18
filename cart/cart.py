@@ -36,15 +36,16 @@ class Cart:
 
     def add(self, product_id, quantity=1, update_quantity=False):
         product_id = str(product_id)
-        print('self.cart', self.cart)
+       
         if product_id not in self.cart:
-            print('product id not in cart')
+            
             self.cart[product_id] = {'quantity': 1, 'id': product_id}
     # check on convergent id for item and product
         if update_quantity:
-            print('update quantity!!!')
+            
             self.cart[product_id]['quantity'] += int(quantity)
-            print(self.cart[product_id]['quantity'])
+            # make sure the product has a key
+
         else:
             self.cart[product_id]['quantity'] += int(quantity)
 
@@ -65,6 +66,22 @@ class Cart:
     def get_total_cost(self):
         print('cart', self.cart)
         return int(sum(item['product'].price * item['quantity'] for item in self.cart.values()))
+    
+    # def get_total_cost(self):
+    #     total_cost = 0
+    #     for item in self.cart.values():
+    #         if 'quantity' in item:
+    #             if 'product' in item:
+    #                 try:
+    #                     product_price = item['product']['price']
+    #                     total_cost += product_price * item['quantity']
+    #                 except (KeyError, TypeError):
+    #                     continue
+    #             else:
+    #                 total_cost += item['quantity']  # Assuming a default price of 0 for items without 'product' key
+    #     return int(total_cost)
+
+    
 
     def get_item(self, product_id):
         if str(product_id) in self.cart:
