@@ -64,9 +64,11 @@ class Cart:
         self.session.modified = True
 
     def get_total_cost(self):
-        print('cart', self.cart)
+        
         return int(sum(item['product'].price * item['quantity'] for item in self.cart.values()))
     
+   
+
     # def get_total_cost(self):
     #     total_cost = 0
     #     for item in self.cart.values():

@@ -62,9 +62,18 @@ def update_cart(request, product_id, action):
 
 @login_required
 def checkout(request):
+    # get products in cart and their prices
+    total_cost = 0
+    cart = Cart(request)
+    # get the total cost of all items in the cart
+    for item in cart:
+        total_cost += item['total_price']
+    
+    print('total_cost', total_cost)
+
     pub_key = settings.STRIPE_PUBLIC_KEY
     # where is this used
-    return render(request, 'cart/checkout.html', {'pub_key': pub_key})
+    return render(request, 'cart/checkout.html', {'pub_key': pub_key, 'total_cost': total_cost})
 
 def hx_menu_item(request):
     return render(request, 'cart/menu_item.html')
