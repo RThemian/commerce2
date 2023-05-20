@@ -37,8 +37,8 @@ def start_order(request):
         payment_method_types=['card'],
         line_items=items,
         mode='payment',
-        success_url='http://localhost:8000/cart/success/',
-        cancel_url='http://localhost:8000/cart',
+        success_url='https://commerce-nov8.herokuapp.com/cart/success/',
+        cancel_url='https://commerce-nov8.herokuapp.com/cart/',
     )
     payment_intent = session.payment_intent
 
